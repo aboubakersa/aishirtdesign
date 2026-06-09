@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasmimak | Creator Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================================
+           CSS STYLESHEET - PREMIUM PROFILE THEME
+           ========================================================= */
+        :root {
+            --brand-cyan: #00b8e6; --brand-cyan-dark: #008eb3; --brand-cyan-light: #e6f9ff;
+            --bg-body: #f4f7fb; --bg-surface: #ffffff; --bg-tinted-blue: #f0f7ff;
+            --text-dark: #0f172a; --text-main: #334155; --text-muted: #94a3b8;
+            --border-light: #e2e8f0; --shadow-sm: 0 4px 6px rgba(0,0,0,0.02);
+            --shadow-md: 0 10px 20px rgba(0,0,0,0.05); --shadow-floating: 0 30px 60px rgba(0, 50, 100, 0.12);
+            --success: #10b981; --danger: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg-body); background-image: url('assets/background.png'); background-size: cover; background-position: center; background-attachment: fixed; height: 100vh; display: flex; overflow: hidden; color: var(--text-main); }
+
+        .app-container { display: flex; width: 95%; max-width: 1600px; margin: 3vh auto 0; height: 94vh; gap: 25px; }
+
+        /* COLLAPSIBLE SIDEBAR */
+        .sidebar { width: 95px; background: var(--bg-tinted-blue); border-radius: 28px; display: flex; flex-direction: column; padding: 25px 20px; box-shadow: var(--shadow-floating); flex-shrink: 0; position: relative; overflow-x: hidden; border: 1px solid rgba(255,255,255,0.9); transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
+        .sidebar:hover { width: 290px; padding: 25px 25px; }
+        .hide-on-collapse { opacity: 0; visibility: hidden; transition: 0.2s; margin-left: 12px; }
+        .sidebar:hover .hide-on-collapse { opacity: 1; visibility: visible; }
+        .brand-logo { display: flex; align-items: center; font-size: 1.3rem; font-weight: 800; color: var(--text-dark); margin-bottom: 35px; padding: 0 5px; }
+        .brand-logo img { width: 80px; height: 80px; min-width: 80px; border-radius: 12px; margin-left: -18px; filter: drop-shadow(0 6px 10px rgba(3, 3, 3, 0.25)); }
+        
+        .nav-menu { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; }
+        .nav-item { display: flex; align-items: center; padding: 12px 10px; border-radius: 12px; color: var(--text-main); font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; }
+        .nav-item svg { width: 22px; height: 22px; color: var(--text-muted); min-width: 22px; margin-left: 4px;}
+        .nav-item:hover { background: #ffffff; color: var(--text-dark); box-shadow: var(--shadow-sm); }
+        .nav-item.active { background: var(--text-dark); color: white; box-shadow: var(--shadow-sm); }
+        .nav-item.active svg { color: white; }
+
+        /* MAIN CONTENT AREA */
+        .main-wrapper { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-radius: 28px; background: var(--bg-surface); box-shadow: var(--shadow-floating); border: 1px solid rgba(255, 255, 255, 0.9); }
+        
+        /* PREMIUM PROFILE HEADER */
+        .profile-header-container { position: relative; display: flex; flex-direction: column; align-items: center; border-bottom: 1px solid var(--border-light); background: white; }
+        
+        .profile-cover { width: 100%; height: 160px; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); position: relative; overflow: hidden; }
+        .profile-cover::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 20px 20px; opacity: 0.3; }
+        
+        .profile-info-box { display: flex; flex-direction: column; align-items: center; width: 100%; padding: 0 40px 30px; margin-top: -50px; position: relative; z-index: 2; }
+        .profile-avatar { width: 110px; height: 110px; border-radius: 50%; background: white; border: 4px solid white; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 2.8rem; font-weight: 800; color: var(--brand-cyan-dark); margin-bottom: 15px; text-transform: uppercase;}
+        
+        .profile-name { font-size: 2.2rem; font-weight: 800; color: var(--text-dark); letter-spacing: -0.5px; margin-bottom: 8px; }
+        
+        .profile-meta-row { display: flex; align-items: center; gap: 20px; color: var(--text-muted); font-size: 0.9rem; font-weight: 600; margin-bottom: 25px;}
+        .meta-item { display: flex; align-items: center; gap: 6px; }
+        
+        /* MODERN TABS */
+        .profile-tabs { display: flex; justify-content: center; gap: 10px; width: 100%; background: var(--bg-body); padding: 10px; border-radius: 16px; max-width: 500px;}
+        .tab-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s; font-size: 0.95rem; background: transparent; color: var(--text-muted); }
+        .tab-btn.active { background: white; color: var(--text-dark); box-shadow: var(--shadow-sm); }
+        .tab-btn:hover:not(.active) { color: var(--text-dark); background: rgba(255,255,255,0.5);}
+
+        /* SCROLL AREA */
+        .content-scroll { flex: 1; padding: 40px; overflow-y: auto; background: var(--bg-surface); }
+        .content-scroll::-webkit-scrollbar { width: 8px; }
+        .content-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        /* MARKETPLACE GRID MATCH */
+        .market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .market-card { background: white; border-radius: 20px; padding: 20px; border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; }
+        .market-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--brand-cyan-light); }
+        .market-card-img-wrapper { position: relative; width: 100%; height: 280px; margin-bottom: 15px; }
+        .market-card img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; background: #f8fafc; border: 1px solid #f1f5f9; }
+        .market-caption { font-size: 0.95rem; font-weight: 800; color: var(--text-dark); line-height: 1.4; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .product-badge { position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,0.95); backdrop-filter: blur(4px); padding: 5px 12px; border-radius: 10px; font-size: 0.75rem; font-weight: 800; color: var(--text-dark); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        
+        .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border-light); }
+        .market-price { font-weight: 800; color: var(--brand-cyan-dark); font-size: 1.1rem; }
+        .btn-order-small { background: var(--text-dark); color: white; border: none; padding: 10px 18px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 6px; font-size: 0.85rem; }
+        .btn-order-small:hover { background: #000000; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+
+        /* MODALS */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 9999; opacity: 0; transition: opacity 0.3s; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-card { background: white; padding: 40px; border-radius: 28px; width: 90%; max-width: 550px; box-shadow: 0 25px 50px rgba(0,0,0,0.25); transform: translateY(20px); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); max-height: 90vh; overflow-y: auto; position: relative;}
+        .modal-overlay.active .modal-card { transform: translateY(0); }
+        .close-modal { position: absolute; top: 25px; right: 25px; background: none; border: none; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
+        .close-modal:hover { color: var(--danger); transform: scale(1.1); }
+        .modal-title { font-size: 1.6rem; font-weight: 800; text-align: center; margin-bottom: 25px; color: var(--text-dark); letter-spacing: -0.5px;}
+        .modal-form-group { margin-bottom: 20px; }
+        .modal-form-group label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;}
+        .modal-form-group input, .modal-form-group select { width: 100%; padding: 14px 18px; border-radius: 14px; border: 1px solid var(--border-light); background: var(--bg-body); font-size: 0.95rem; color: var(--text-dark); font-weight: 500; outline: none; transition: all 0.2s; appearance: auto;}
+        .modal-form-group input:focus, .modal-form-group select:focus { background: white; border-color: var(--brand-cyan); box-shadow: 0 0 0 4px rgba(0, 184, 230, 0.15); }
+        .modal-actions { display: flex; gap: 15px; margin-top: 35px; }
+        .modal-btn { flex: 1; padding: 16px; border-radius: 16px; font-weight: 800; cursor: pointer; text-align: center; border: none; font-size: 1.05rem; transition: all 0.2s;}
+        .modal-btn.primary { background: var(--brand-cyan); color: white;}
+        .modal-btn.primary:hover { background: var(--brand-cyan-dark); transform: translateY(-2px); }
+        .modal-btn.secondary { background: var(--bg-body); color: var(--text-main); border: 1px solid var(--border-light);}
+
+        /* TOASTS */
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 10px; }
+        .toast { padding: 16px 24px; border-radius: 12px; color: white; font-weight: 700; font-size: 0.95rem; box-shadow: 0 10px 25px rgba(0,0,0,0.15); opacity: 0; transform: translateY(-20px); animation: toastIn 0.3s forwards; display: flex; align-items: center; gap: 10px; }
+        .toast.success { background: var(--success); }
+        .toast.error { background: var(--danger); }
+        @keyframes toastIn { to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div id="toast-container"></div>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="brand-logo"><img src="assets/logo.png" onerror="this.src='https://placehold.co/50x50/00b8e6/ffffff?text=AI'"></div>
+            <div class="nav-menu">
+                <div class="nav-item" onclick="window.location.href='aichat.html'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span class="hide-on-collapse">Workspace</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='marketplace.html'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg><span class="hide-on-collapse">Marketplace</span>
+                </div>
+                <div class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg><span class="hide-on-collapse">Profile</span>
+                </div>
+            </div>
+            <div class="nav-menu" style="margin-top: auto;">
+                <div class="nav-item danger" onclick="logoutUser()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg><span class="hide-on-collapse">Disconnect</span></div>
+            </div>
+        </aside>
+
+        <main class="main-wrapper">
+            <header class="profile-header-container">
+                <div class="profile-cover"></div>
+                
+                <div class="profile-info-box">
+                    <div class="profile-avatar" id="profAvatar">?</div>
+                    <div class="profile-name" id="profName">Loading Identity...</div>
+                    
+                    <div class="profile-meta-row">
+                        <div class="meta-item" id="profDate">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            Member Data Retrieving...
+                        </div>
+                        <div class="meta-item" id="profCount">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                            0 Designs
+                        </div>
+                    </div>
+
+                    <div class="profile-tabs">
+                        <button class="tab-btn active" onclick="switchTab('creations', this)">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                            Portfolio
+                        </button>
+                        <button class="tab-btn" id="btnWishlistTab" style="display:none;" onclick="switchTab('wishlist', this)">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                            Saved Wishlist
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-scroll">
+                <div class="market-grid" id="profileGridList">
+                    </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal-card">
+            <button class="close-modal" onclick="window.closeOrderModal()">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <h3 class="modal-title">Complete Order</h3>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img id="modalPreviewImg" src="" style="max-width: 150px; border-radius: 12px; border: 2px solid var(--border-light);">
+            </div>
+            
+            <div style="display: flex; gap: 15px;">
+                <div class="modal-form-group" style="flex: 1;">
+                    <label>Size</label>
+                    <select id="orderSize"><option value="" disabled selected>Size</option><option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option></select>
+                </div>
+                <div class="modal-form-group" style="flex: 2;">
+                    <label>Wilaya</label>
+                    <select id="orderWilaya">
+                        <option value="" disabled selected>Select Wilaya</option>
+                        <option value="16 - Alger">16 - Alger</option>
+                        <option value="31 - Oran">31 - Oran</option>
+                        <option value="09 - Blida">09 - Blida</option>
+                        <option value="15 - Tizi Ouzou">15 - Tizi Ouzou</option>
+                        <option value="25 - Constantine">25 - Constantine</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-form-group"><label>Full Name</label><input type="text" id="orderName" required></div>
+            <div class="modal-form-group"><label>Phone</label><input type="tel" id="orderPhone" required></div>
+            <div class="modal-form-group"><label>Address</label><input type="text" id="orderAddress" required></div>
+
+            <div class="modal-actions">
+                <button class="modal-btn secondary" onclick="window.closeOrderModal()">Cancel</button>
+                <button class="modal-btn primary" id="confirmOrderBtn" onclick="window.submitOrder()">Submit Order</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-card" style="text-align: center;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" style="width: 80px; height: 80px; margin: 0 auto 20px; display:block;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <h3 class="modal-title" style="margin-bottom: 10px;">Success!</h3>
+            <p style="color: var(--text-muted); margin-bottom: 35px;">Order submitted to the workshop.</p>
+            <button class="modal-btn primary" style="width: 100%;" onclick="document.getElementById('successModal').classList.remove('active')">Continue Browsing</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs, doc, getDoc, query, where, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXZYUmaoG1hsAcxp-Q8IDj7X7GCDnOZ1Q",
+            authDomain: "aishirtdesign-c7c3d.firebaseapp.com",
+            projectId: "aishirtdesign-c7c3d",
+            storageBucket: "aishirtdesign-c7c3d.firebasestorage.app",
+            messagingSenderId: "907151824372",
+            appId: "1:907151824372:web:263a142178f93dc9e095a1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let targetUserId = null; 
+        let currentTab = 'creations';
+        let targetUserFavorites = []; 
+        let selectedMarketItem = null;
+
+        // --- GLOBAL TOAST SYSTEM ---
+        window.showToast = function(msg, type = 'error') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = type === 'error' ? 
+                `<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> ${msg}` :
+                `<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> ${msg}`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(-20px)'; setTimeout(() => toast.remove(), 300); }, 3500);
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        onAuthStateChanged(auth, async (user) => {
+            if (user) { 
+                currentUser = user; 
+                targetUserId = urlParams.get('id') || user.uid;
+
+                if (targetUserId === user.uid) {
+                    document.getElementById('btnWishlistTab').style.display = 'flex';
+                }
+
+                await loadProfileData();
+                loadGridData();
+            } else { 
+                window.location.href = 'login.html'; 
+            }
+        });
+
+        window.logoutUser = async function() { await signOut(auth); window.location.href = 'login.html'; };
+
+        window.switchTab = function(tabName, btnElement) {
+            currentTab = tabName;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+            loadGridData();
+        };
+
+        async function loadProfileData() {
+            try {
+                const userDoc = await getDoc(doc(db, 'users', targetUserId));
+                if (userDoc.exists()) {
+                    const data = userDoc.data();
+                    
+                    // SAFE NAME EXTRACTION (No Undefined)
+                    const fName = data.firstName || 'User';
+                    const lName = data.lastName || '';
+                    const name = `${fName} ${lName}`.trim();
+                    
+                    document.getElementById('profName').innerText = name;
+                    document.getElementById('profAvatar').innerText = name.charAt(0).toUpperCase();
+                    
+                    if(data.createdAt) {
+                        const date = data.createdAt.toDate();
+                        document.getElementById('profDate').innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> Joined ${date.toLocaleDateString('en-US', { month: 'long', year: 'numeric'})}`;
+                    }
+
+                    targetUserFavorites = data.favorites || [];
+                } else {
+                    document.getElementById('profName').innerText = "Identity Not Found";
+                }
+            } catch(e) { console.error("Error loading profile", e); }
+        }
+
+        async function loadGridData() {
+            const grid = document.getElementById('profileGridList');
+            grid.innerHTML = '<p style="text-align: center; color: var(--text-muted); font-weight: 600; grid-column: 1 / -1;">Retrieving Data...</p>';
+            
+            try {
+                let designs = [];
+                
+                if (currentTab === 'creations') {
+                    const q = query(collection(db, 'marketplace'), where("creatorId", "==", targetUserId));
+                    const snap = await getDocs(q);
+                    snap.forEach(doc => designs.push({ id: doc.id, ...doc.data() }));
+                    
+                    document.getElementById('profCount').innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg> ${designs.length} Designs Published`;
+                } else if (currentTab === 'wishlist') {
+                    if (targetUserFavorites.length > 0) {
+                        const snap = await getDocs(collection(db, 'marketplace'));
+                        snap.forEach(doc => {
+                            if (targetUserFavorites.includes(doc.id)) {
+                                designs.push({ id: doc.id, ...doc.data() });
+                            }
+                        });
+                    }
+                }
+
+                designs.sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+
+                if (designs.length === 0) {
+                    grid.innerHTML = `<p style="text-align: center; color: var(--text-muted); font-weight: 600; grid-column: 1 / -1; padding-top: 20px;">No records found in this section.</p>`;
+                    return;
+                }
+
+                grid.innerHTML = '';
+                designs.forEach(data => {
+                    const item = document.createElement('div');
+                    item.className = 'market-card';
+                    item.innerHTML = `
+                        <div class="market-card-img-wrapper">
+                            <span class="product-badge">${data.productType || 'Apparel'}</span>
+                            <img src="${data.imageUrl}">
+                        </div>
+                        <div class="market-caption">"${data.caption || 'AI Generated Design'}"</div>
+                        
+                        <div class="card-actions">
+                            <div class="market-price">${data.basePrice || 2490} DZD</div>
+                            <button class="btn-order-small" onclick='window.prepareMarketOrder(${JSON.stringify(data).replace(/'/g, "\\'")})'>
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Order
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(item);
+                });
+
+            } catch (e) {
+                console.error("Error loading grid", e);
+                grid.innerHTML = `<p style="text-align: center; color: var(--danger); font-weight: 600; grid-column: 1 / -1;">Failed to load server data.</p>`;
+            }
+        }
+
+        // --- ORDERING LOGIC DIRECTLY FROM PROFILE ---
+        window.prepareMarketOrder = function(data) {
+            selectedMarketItem = data;
+            document.getElementById('modalPreviewImg').src = data.imageUrl;
+            document.getElementById('orderModal').classList.add('active');
+        };
+
+        window.closeOrderModal = () => document.getElementById('orderModal').classList.remove('active');
+
+        window.submitOrder = async function() {
+            const size = document.getElementById('orderSize').value;
+            const wilaya = document.getElementById('orderWilaya').value;
+            const name = document.getElementById('orderName').value.trim();
+            const phone = document.getElementById('orderPhone').value.trim();
+            const address = document.getElementById('orderAddress').value.trim();
+            
+            if(!size || !wilaya || !name || !phone || !address) return showToast("Please fill all fields.", "error");
+            
+            const btn = document.getElementById('confirmOrderBtn');
+            btn.innerText = "Processing..."; btn.disabled = true;
+
+            try {
+                await addDoc(collection(db, 'users', currentUser.uid, 'orders'), {
+                    imageUrl: selectedMarketItem.imageUrl, 
+                    size: size, 
+                    wilaya: wilaya, 
+                    customerName: name, 
+                    phone: phone, 
+                    address: address,
+                    productType: selectedMarketItem.productType || 'T-Shirt', 
+                    material: selectedMarketItem.material || 'Standard', 
+                    price: selectedMarketItem.basePrice || 2490, 
+                    status: 'Pending', 
+                    timestamp: serverTimestamp()
+                });
+                
+                closeOrderModal();
+                document.getElementById('successModal').classList.add('active');
+            } catch(e) {
+                showToast("Order failed: " + e.message, "error");
+            } finally {
+                btn.innerText = "Submit Order"; btn.disabled = false;
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Tasmimak | Authenticate</title>
+    <!-- Professional Font to match Dashboard/Workspace -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================================
+           CSS STYLESHEET - CURVY SLIDING LOGIN THEME
+           ========================================================= */
+        :root {
+            --brand-blue: #1976d2;
+            --brand-blue-light: #1976d2;
+            --brand-blue-hover: #1565c0;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --border-focus: #3b82f6;
+            --bg-body: #f4f7fb; 
+            --bg-input: #f8fafc;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            background-image: url('assets/background1.png'); /* Fallback matching the workspace */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* --- SLIDER CONTAINER SETTINGS --- */
+        .container {
+            background-color: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 30px 60px -12px rgba(0, 50, 100, 0.15);
+            position: relative;
+            overflow: hidden; /* Clips the sliders at the outer box edge */
+            width: 950px;
+            max-width: 100%;
+            min-height: 600px;
+        }
+
+        .form-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Default State: Sign Up is on the Left and Visible */
+        .sign-up-container {
+            left: 0;
+            width: 50%;
+            z-index: 2;
+        }
+
+        /* Default State: Sign In is hidden */
+        .sign-in-container {
+            left: 0;
+            width: 50%;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        /* Active State: Sign Up slides out right */
+        .container.right-panel-active .sign-up-container {
+            transform: translateX(100%);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        /* Active State: Sign In slides in right */
+        .container.right-panel-active .sign-in-container {
+            transform: translateX(100%);
+            opacity: 1;
+            z-index: 5;
+            animation: show 0.6s;
+        }
+
+        @keyframes show {
+            0%, 49.99% { opacity: 0; z-index: 1; }
+            50%, 100% { opacity: 1; z-index: 5; }
+        }
+
+        /* --- CLEAN FORM STYLING --- */
+        form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 25px;
+            height: 100%;
+            text-align: center;
+            width: 100%;
+        }
+
+        .auth-title {
+            font-weight: 800;
+            font-size: 2rem;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            letter-spacing: -0.5px;
+        }
+
+        .form-group {
+            position: relative;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        /* Clean Boxed Inputs instead of lines */
+        .form-group input {
+            background-color: var(--bg-input);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 20px;
+            width: 100%;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            font-weight: 500;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-group input::placeholder {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .form-group input:focus {
+            border-color: var(--brand-blue-light);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
+        }
+
+        .terms-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            margin-bottom: 25px;
+            margin-top: 5px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: left;
+        }
+
+        .terms-group input[type="checkbox"] {
+            width: 18px; height: 18px; accent-color: var(--brand-blue-light); cursor: pointer;
+        }
+        .terms-group a { color: var(--brand-blue-light); text-decoration: none; font-weight: 700; }
+
+        /* --- BUTTONS --- */
+        button {
+            border-radius: 30px;
+            border: 1px solid var(--brand-blue);
+            background: linear-gradient(135deg, var(--brand-blue-light), var(--brand-blue));
+            color: #FFFFFF;
+            font-size: 1rem;
+            font-weight: 800;
+            padding: 16px 45px;
+            letter-spacing: 0.5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 8px 20px rgba(25, 118, 210, 0.3);
+            margin-top: 10px;
+        }
+
+        button:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(25, 118, 210, 0.4); }
+        button:active { transform: translateY(0); }
+        button:disabled { background: #cbd5e1; border-color: #cbd5e1; cursor: not-allowed; box-shadow: none; transform: none;}
+
+        button.ghost {
+            background-color: transparent;
+            background: transparent;
+            border: 2px solid #FFFFFF;
+            box-shadow: none;
+            width: auto;
+            min-width: 160px;
+        }
+        button.ghost:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        /* --- THE SLIDING OVERLAY --- */
+        .overlay-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+        }
+        .brand-logo img {
+    width: 180px; 
+    height: 180px; 
+    min-width: 180px; 
+    border-radius: 12px; 
+    filter: drop-shadow(0 16px 20px rgba(3, 3, 3, 0.25));
+    
+    /* Pulls the logo to the left */
+    margin-left: -18px; 
+}
+        .container.right-panel-active .overlay-container {
+            transform: translateX(-100%);
+        }
+
+        .overlay {
+            background: linear-gradient(135deg, var(--brand-blue), var(--brand-blue-light));
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: 0 0;
+            color: #FFFFFF;
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .container.right-panel-active .overlay {
+            transform: translateX(50%);
+        }
+
+        .overlay-panel {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 50px;
+            text-align: center;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            transform: translateX(0);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Default Right Panel (Sign In Prompt) */
+        .overlay-right {
+            right: 0;
+            transform: translateX(0);
+        }
+
+        .container.right-panel-active .overlay-right {
+            transform: translateX(20%);
+        }
+
+        /* Left Panel (Sign Up Prompt - Active after click) */
+        .overlay-left {
+            transform: translateX(-20%);
+        }
+
+        .container.right-panel-active .overlay-left {
+            transform: translateX(0);
+        }
+
+        .overlay-panel h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: -0.5px;
+        }
+
+        .overlay-panel p {
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-bottom: 35px;
+            opacity: 0.9;
+        }
+
+        .logo-placeholder {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            padding: 15px;
+        }
+        .logo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .auth-error {
+            color: var(--danger);
+            font-size: 0.9rem;
+            min-height: 20px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            width: 100%;
+        }
+
+        /* =========================================================
+           CURVY CLOUD EDGES (SYNCED WITH OVERLAY)
+           ========================================================= */
+        .overlay-edges {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            z-index: 101; /* Over the white forms */
+            pointer-events: none; /* Clicks pass through to form */
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .container.right-panel-active .overlay-edges {
+            transform: translateX(-100%);
+        }
+
+        /* The curve bordering the left side of the blue panel */
+        .divider-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 80px;
+            margin-left: -79px; /* Sticks out to the left */
+            fill: var(--brand-blue); /* Matches the left side of the gradient */
+        }
+
+        /* The curve bordering the right side of the blue panel */
+        .divider-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 80px;
+            margin-right: -79px; /* Sticks out to the right */
+            transform: scaleX(-1); /* Flips the cloud to face outwards */
+            fill: var(--brand-blue-light); /* Matches the right side of the gradient */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container" id="container">
+        
+        <!-- ==========================================
+             SIGN UP FORM (Left, Default Visible)
+             ========================================== -->
+        <div class="form-container sign-up-container">
+            <form id="signUpForm" onsubmit="handleSignUp(event)">
+                <h1 class="auth-title">Create Account</h1>
+                <div id="signUpError" class="auth-error"></div>
+                
+                <div style="display:flex; gap:15px; width:100%;">
+                    <div class="form-group">
+                        <input type="text" id="regFirstName" placeholder="First Name" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="regLastName" placeholder="Last Name" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" id="regEmail" placeholder="Email Address" required />
+                </div>
+                <div class="form-group">
+                    <input type="password" id="regPassword" placeholder="Password" required />
+                </div>
+
+
+                <button type="submit" id="btnSignUpSubmit">Sign Up</button>
+            </form>
+        </div>
+
+        <!-- ==========================================
+             SIGN IN FORM (Right, Slid In Later)
+             ========================================== -->
+        <div class="form-container sign-in-container">
+            <form id="signInForm" onsubmit="handleSignIn(event)">
+                <h1 class="auth-title">Welcome Back</h1>
+                <div id="signInError" class="auth-error"></div>
+
+                <div class="form-group">
+                    <input type="email" id="loginEmail" placeholder="Email Address" required />
+                </div>
+                <div class="form-group">
+                    <input type="password" id="loginPassword" placeholder="Password" required />
+                </div>
+                
+                <div class="terms-group" style="justify-content: flex-end; margin-bottom: 20px;">
+                    <a href="#" style="font-weight: 600; font-size: 0.85rem;">Forgot your password?</a>
+                </div>
+
+                <button type="submit" id="btnSignInSubmit">Log In</button>
+            </form>
+        </div>
+
+        <!-- ==========================================
+             THE SLIDING OVERLAY (Blue Gradient Panel)
+             ========================================== -->
+        <div class="overlay-container">
+            <div class="overlay">
+                
+                <!-- Left Overlay (Revealed when Sign In is active) -->
+                <div class="overlay-panel overlay-left">
+            <div class="brand-logo">
+                <img src="assets/logo.png" alt="Logo" onerror="this.src='https://placehold.co/50x50/00b8e6/ffffff?text=AI'">
+            </div>
+                    <h1>New Here?</h1>
+                    <p>Enter your details and start generating custom streetwear seamlessly today.</p>
+                    <button class="ghost" id="signUpGhost">Sign Up</button>
+                </div>
+                
+                <!-- Right Overlay (Default Visible - Prompts to Sign In) -->
+                <div class="overlay-panel overlay-right">
+            <div class="brand-logo">
+                <img src="assets/logo.png" alt="Logo" onerror="this.src='https://placehold.co/50x50/00b8e6/ffffff?text=AI'">
+            </div>
+                    <h1>Welcome Back!</h1>
+                    <p>Already have an account? Log in with your personal info to access your studio.</p>
+                    <button class="ghost" id="signInGhost">Sign In</button>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- ==========================================
+             THE CLOUD / CURVE EDGES
+             ========================================== -->
+        <div class="overlay-edges">
+            <svg class="divider-left" preserveAspectRatio="none" viewBox="0 0 100 800">
+                <!-- Smooth wavy cloud border -->
+                <path d="M100,0 L100,800 L40,800 Q10,760 30,720 Q-10,680 40,640 Q20,600 50,560 Q10,520 40,480 Q20,440 50,400 Q10,360 40,320 Q20,280 50,240 Q10,200 40,160 Q20,120 50,80 Q10,40 40,0 Z"></path>
+            </svg>
+            <svg class="divider-right" preserveAspectRatio="none" viewBox="0 0 100 800">
+                <path d="M100,0 L100,800 L40,800 Q10,760 30,720 Q-10,680 40,640 Q20,600 50,560 Q10,520 40,480 Q20,440 50,400 Q10,360 40,320 Q20,280 50,240 Q10,200 40,160 Q20,120 50,80 Q10,40 40,0 Z"></path>
+            </svg>
+        </div>
+        
+    </div>
+
+    <!-- =========================================================
+         FIREBASE & LOGIC SCRIPT
+         ========================================================= -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- FIREBASE CONFIG ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXZYUmaoG1hsAcxp-Q8IDj7X7GCDnOZ1Q",
+            authDomain: "aishirtdesign-c7c3d.firebaseapp.com",
+            projectId: "aishirtdesign-c7c3d",
+            storageBucket: "aishirtdesign-c7c3d.firebasestorage.app",
+            messagingSenderId: "907151824372",
+            appId: "1:907151824372:web:263a142178f93dc9e095a1",
+            measurementId: "G-F3SZCP9EKC"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // --- SLIDER LOGIC ---
+        const signUpGhostBtn = document.getElementById('signUpGhost');
+        const signInGhostBtn = document.getElementById('signInGhost');
+        const container = document.getElementById('container');
+
+        // When "Sign In" is clicked on the default right overlay
+        signInGhostBtn.addEventListener('click', () => {
+            container.classList.add("right-panel-active");
+            document.getElementById('signUpError').innerText = ""; 
+        });
+
+        // When "Sign Up" is clicked on the active left overlay
+        signUpGhostBtn.addEventListener('click', () => {
+            container.classList.remove("right-panel-active");
+            document.getElementById('signInError').innerText = ""; 
+        });
+
+        // --- ERROR FORMATTER ---
+        function formatAuthError(error) {
+            if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') {
+                return "Incorrect email or password.";
+            } else if (error.code === 'auth/email-already-in-use') {
+                return "This email is already registered.";
+            } else if (error.code === 'auth/weak-password') {
+                return "Password must be at least 6 characters.";
+            }
+            return error.message;
+        }
+
+        // --- HANDLE SIGN IN ---
+        window.handleSignIn = async function(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+            const password = document.getElementById('loginPassword').value.trim();
+            const errorDiv = document.getElementById('signInError');
+            const submitBtn = document.getElementById('btnSignInSubmit');
+
+            errorDiv.innerText = "";
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Processing...";
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                // Redirect handled by onAuthStateChanged
+            } catch (error) {
+                console.error("Sign In Error: ", error);
+                errorDiv.innerText = formatAuthError(error);
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Log In";
+            }
+        };
+
+        // --- HANDLE SIGN UP ---
+        window.handleSignUp = async function(event) {
+            event.preventDefault();
+            const firstName = document.getElementById('regFirstName').value.trim();
+            const lastName = document.getElementById('regLastName').value.trim();
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const password = document.getElementById('regPassword').value.trim();
+            
+            const errorDiv = document.getElementById('signUpError');
+            const submitBtn = document.getElementById('btnSignUpSubmit');
+
+            errorDiv.innerText = "";
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Creating Account...";
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                await setDoc(doc(db, 'users', user.uid), {
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    generationsLeft: 5, 
+                    createdAt: serverTimestamp()
+                }, { merge: true });
+
+            } catch (error) {
+                console.error("Sign Up Error: ", error);
+                errorDiv.innerText = formatAuthError(error);
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Sign Up";
+            }
+        };
+
+        // --- AUTH STATE LISTENER (Redirect to Dashboard) ---
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.location.href = 'aichat.html';
+            }
+        });
+    </script>
+</body>
+</html>
